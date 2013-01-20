@@ -1,0 +1,207 @@
+%%
+%% This is file `combo.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% combo.dtx  (with options: `package')
+%% ----------------------------------------------------------------
+%% combo --- overlay text over an image with precision
+%%                adjust text to fit into an overlaid text box.
+%% version 0.1
+%% 
+%% E-mail: y.lazarides@habtoorspecon.com
+%% Released under the LaTeX Project Public License v1.3c or later
+%% See http://www.latex-project.org/lppl.txt
+%% ----------------------------------------------------------------
+%% 
+\NeedsTeXFormat{LaTeX2e}% LaTeX 2.09 can't be used (nor non-LaTeX)
+[1994/12/01]% LaTeX date must be December 1994 or later
+\ProvidesPackage{combo}[2012/02/26 v1.0 combine text with figures]
+\RequirePackage{pgf}[2008/01/15]
+\RequirePackage{graphicx,lipsum}
+\RequirePackage{overpic}
+\RequirePackage{picture}
+\RequirePackage{xcolor}
+\RequirePackage{ragged2e}
+\newbox\textbox
+\newbox\imagebox
+\newif\if@ok
+\@oktrue
+\newif\ifshowframe
+\newif\if@center
+\newif\if@vcenter
+\centering
+\pgfkeys{/combo/.is family}
+\pgfkeys{/combo
+  x/.store in=\position@x,
+  y/.store in=\position@y,
+  padding-left/.store in=\padding@left,
+  padding-left/.default=0pt,
+  padding-right/.store in=\padding@right,
+  padding-right/.default=0pt,
+  padding-bottom/.store in=\padding@bottom,
+  padding-bottom/.default=0pt,
+  text-color/.store in=\combo@textcolor,
+  text-color/.default=white,
+  text-width/.store in=\combo@textwidth,
+  text-width/.default=100pt,
+  text-height/.store in=\combo@textheight,
+  text-height/.default=5cm,
+  border-width/.store in=\combo@borderwidth,
+  border-color/.store in=\combo@bordercolor,
+  border-color/.default=red,
+  image-width/.store in=\combo@imgwidth,
+  image-width/.default=5cm,
+  image-height/.store in=\combo@imgheight,
+  image-height/.default=5cm,
+  image-url/.store in=\combo@imageurl,
+  image-url/.default=cardtrick,
+  tics/.store in=\combo@tics,
+  tics/.default=10,
+  showgrid/.store in=\combo@grid,
+  showgrid/.default ={,},
+  showframe/.is if= showframe,
+  align/.is choice,
+  align/center/.code={\@centertrue},
+  align/vcenter/.code ={\@vcentertrue},
+  text-align/.store in = \combo@textalign,
+  border/.style={border-color=blue},
+  font-family/.store in=\combo@fontfamily,
+  font-family/.default = sffamily,
+  font-shape/.store in=\combo@fontshape,
+  font-shape/.default = upshape,
+  font-weight/.store in=\combo@fontweight,
+  font-weight/.default = bfseries,
+ }
+
+ % Process keys and set defaults, for later use
+\def\setdefaults{\pgfkeys{/combo
+  x=12pt,y=50pt,
+  padding-left,
+  padding-right,
+  padding-bottom,
+  text-align=raggedleft,
+  showgrid=grid,
+  font-family=sffamily,
+  font-shape,
+  }%
+}
+
+\setdefaults
+
+\newcommand{\font@size@list}{%
+   \Huge,\huge,
+   \LARGE,\Large
+   \large,\normalsize,
+   \small,\footnotesize,
+   \scriptsize,\tiny%
+}
+\newcommand\default@fontsize{\small}
+
+\def\set@text@size#1{%
+  \def\combo@text@size{#1}%
+}
+\set@text@size{\default@fontsize}
+
+\newcommand\combo@inbox{}
+
+\newcommand{\combo}[2][]{%
+ \setdefaults
+ \pgfkeys{/combo #1}
+  \def\combo@color{%
+      \color{\combo@textcolor}
+  }
+  \def\combofont{%
+       \bfseries\rmfamily
+       \slshape\selectfont
+        \combo@text@size
+        \combo@color
+   }%
+
+\renewcommand{\combo@inbox}{%
+    \sbox\textbox{\par \vbox{%
+    \leftskip\padding@left%
+    \rightskip\padding@right%
+    \hsize \combo@textwidth%
+    \combofont%
+    \expandafter\csname\combo@textalign\endcsname
+
+     #2\par
+   }%
+  }
+}
+\def\store@fontsize##1{%
+ \def\selected@fontsize{##1}}
+\@for\next:=\font@size@list\do{%
+    \expandafter\set@text@size\next%
+    \next
+    \combo@inbox
+   % \texttt{\expandafter\strip@prefix\meaning\next \the\ht\textbox}%
+    \if@ok
+        \ifdim\the\ht\textbox<\combo@textheight\relax
+             \@okfalse
+            %\fbox{\copy\textbox}\par%
+            \expandafter\store@fontsize\next
+      \fi
+   \fi
+ }
+\if@ok
+  \store@fontsize{\tiny}
+    THIS IS IN ERROR
+  \else
+\fi
+\@oktrue
+
+\vspace{1.5\baselineskip}
+
+\centering
+
+\begin{overpic}[width=\combo@imgwidth,
+                       height=\combo@imgheight,
+                       grid=\combo@grid,
+                       tics=\combo@tics]{\combo@imageurl}%
+  \set@text@size\selected@fontsize
+  \combo@inbox
+  \put(\position@x,\the\dimexpr\position@y+\padding@bottom\relax){%
+       {\ifshowframe
+              \color{\combo@bordercolor}\fboxrule1pt\fbox{\copy\textbox}
+         \else
+              \color{red}\fboxrule0pt\fbox{\copy\textbox}
+        \fi
+       }%
+  }
+\end{overpic}
+}
+
+
+%% ==================================================
+%% Copyright (C) 2012 by Dr. Yiannis Lazarides <y.lazarides@habtoorspecon.com>
+%% 
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License (LPPL), either
+%% version 1.3c of this license or (at your option) any later
+%% version.  The latest version of this license is in the file:
+%% 
+%% http://www.latex-project.org/lppl.txt
+%% 
+%% This work is "maintained" (as per LPPL maintenance status) by
+%% Dr. Yiannis Lazarides.
+%% 
+%% This work consists of the file  combo.dtx
+%% and the derived files              combo.ins,
+%%                                            combo.pdf, and
+%%                                            combo.sty.
+%% 
+%% run
+%%    pdflatex combo.dtx
+%%    makeindex -s gind.ist combo.idx
+%% 
+%% If you have any difficulties with the package come and join us at
+%% http://tex.stackexchange.com and post a new question or
+%% add a comment at http://tex.stackexchange.com/a/45023/963.
+%% 
+%% 
+%% ==================================================
+%%
+%% End of file `combo.sty'.

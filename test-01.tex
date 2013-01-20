@@ -1,0 +1,40 @@
+\documentclass{article}
+\usepackage[latin]{babel}
+\usepackage{lipsum}
+\usepackage{combo}
+\fboxsep=0pt
+\fboxrule=1pt
+\begin{document}
+
+\combo[x=5pt,y=80pt,
+            padding-left=0pt,
+            padding-right=0pt,
+            padding-bottom=0pt,
+            text-color,
+            text-width=6cm,
+            text-height=5cm,
+            image-width=13cm,
+            image-height=7.5cm,
+            image-url=mandela,
+            tics,showframe=true,
+            border-color=yellow,
+            text-align=raggedright,
+            showframe=true,
+            showgrid=true,
+            border={border-color=blue}
+            ]{Mandela has not made a public appearance since
+               the 2010 World Cup final in Johannesburg.}
+\newpage
+\combo[x=0pt,y=0pt,
+            padding-left=5pt,
+            padding-right=5pt,
+            text-color=yellow,
+            text-width=5cm,
+            text-height=5cm,
+            image-width=13cm,
+            image-height=9.5cm,
+            image-url=cardtrick,
+            tics, showframe=true,
+           ]{\lipsum[2]}
+\end{document}
+
