@@ -1,17 +1,18 @@
-----------------------------------------------------------------
-combo --- overlay text over an image with precision
-               adjust text to fit into an overlaid text box.
-version 0.2
+## The combo LaTeX package
 
-E-mail: yannislaz at gmail.com
+The `combo` package, provides a small utility to
+overlay text over an image for LaTeX documents.  The
+package provides a user interface using a key value, interface
+that closely follows css styling. If you familiar with
+web development, you might find this approach easier to remember.
 
-Released under the LaTeX Project Public License v1.3c or later
+The package is released under the LaTeX Project Public License v1.3c or later
 See http://www.latex-project.org/lppl.txt
 
-This work consists of the file  combo.dtx
-and the derived files              combo.ins,
-                                           combo.pdf, and
-                                           combo.sty.
+This work consists of the file  `combo.dtx`,
+and the derived files   `combo.ins`,  `combo.pdf`, and combo.sty.
+
+###Installation
 
 run
    pdflatex combo.dtx
@@ -20,7 +21,7 @@ run
 If you have any difficulties with the package come and join us at
 http://tex.stackexchange.com and post a new question or
 add a comment at http://tex.stackexchange.com/a/45023/963.
+or send me a message at  yannislaz at gmail.com
 
-----------------------------------------------------------------
 
 
