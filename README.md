@@ -15,8 +15,9 @@ and the derived files   `combo.ins`,  `combo.pdf`, and `combo.sty`.
 ###Installation
 
 run
-   pdflatex combo.dtx
-   makeindex -s gind.ist combo.idx
+
+           pdflatex combo.dtx
+           makeindex -s gind.ist combo.idx
 
 If you have any difficulties with the package come and join us at
 http://tex.stackexchange.com and post a new question or
